@@ -405,8 +405,23 @@
        }
 
      });
+       
+        if (!mouseDown) {
+          var newX = lastMouseX+1;
+          var newY = lastMouseY+1;
+          var deltaX = newX - lastMouseX
+          var newRotationMatrix = mat4.create();
+          mat4.identity(newRotationMatrix);
+          mat4.rotate(newRotationMatrix, degToRad(deltaX / 10), [0, 1, 0]);
 
+          var deltaY = newY - lastMouseY;
+          mat4.rotate(newRotationMatrix, degToRad(deltaY / 10), [1, 0, 0]);
 
+          mat4.multiply(newRotationMatrix, moonRotationMatrix, moonRotationMatrix);
+
+          lastMouseX = newX
+          lastMouseY = newY;
+        }
 
         mat4.perspective(cameraZ, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
 
@@ -636,11 +651,9 @@
     </table>
     <br/>
 
-    Moon texture courtesy of <a href="http://maps.jpl.nasa.gov/">the Jet Propulsion Laboratory</a>.
     <br/>
     <br/>
 
-    <a href="http://learningwebgl.com/blog/?p=1253">&lt;&lt; Back to Lesson 11</a><br />
 </body>
 
 </html>
